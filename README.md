@@ -1,8 +1,6 @@
 # SSLab_6thsem
 All the programs executed for the 6th sem of Engineering
 
-# Program list according to syllabus:
-
 # Implement the following using C/C++ for the SIC Machine:
 1. Pass-1 of two-pass assembler.
 2. Pass-2 of two-pass assembler to produce the object code.
@@ -11,7 +9,7 @@ All the programs executed for the 6th sem of Engineering
 5. Relocating loader using bit mask.
 6. One-pass macroprocessor.
 
-PART-B
+
 # LEX Exercises:
 1. Develop and implement a lex program to count the number of characters, words, spaces and lines in a
 given input file.
