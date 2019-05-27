@@ -1,6 +1,24 @@
 # SSLab_6thsem
 All the programs executed for the 6th sem of Engineering
 
+# Instructions to Execute:
+
+## Lex:
+```
+lex "program name".l
+cc lex.yy.c -ll
+./a.out
+```
+
+## Yacc:
+```
+lex "program name".l
+yacc "".c
+cc lex.yy.c y.tab.c -ll
+./a.out
+```
+
+
 # Implement the following using C/C++ for the SIC Machine:
 1. Pass-1 of two-pass assembler.
 2. Pass-2 of two-pass assembler to produce the object code.
