@@ -1,85 +1,84 @@
-//Pass 1 of 2 pass assembler
 #include<stdio.h>
-#include<stdlib.h>
 #include<string.h>
+#include<stdlib.h>
 void main()
 {
-FILE *f1,*f2,*f3,*f4;
-int loc,start_addr,l,operand,value1,len;
-char opcode[20],label[20],next_value[20],opcode1[20];
+  FILE *f1,*f2,*f3,*f4;
+  char label[10],opcode[10],next_value[10],opcode1[10],value1[10];
+  int loc=0,operand,start_addr;
 
-f1=fopen("Input.dat","r");
-f2=fopen("Optab.dat","r");
-f3=fopen("Symtab.dat","w");
-fscanf(f1,"%s %s %x",label,opcode,&operand);
+  f1=fopen("Input.dat","r");
+  f2=fopen("Optab.dat","r");
+  f3=fopen("Symtab.dat","w");
+
+  fscanf(f1,"%s %s %x",label,opcode,&operand);
 
   if(strcmp(opcode,"START")==0)
-   {
-   start_addr=operand;
-   loc=start_addr;
-   printf("\t%s\t%s\t%x\n",label,opcode,operand);
-   }
+  {
+    start_addr=operand;
+    loc=start_addr;
+    printf("\t%s\t%s\t%x\n",label,opcode,operand);
+  }
 
   else
     loc=0;
 
-fscanf(f1,"%s %s",label,opcode);
+   fscanf(f1,"%s %s",label,opcode);
 
-   while(!feof(f1))
+
+  while(!feof(f1))
+  {
+    fscanf(f1,"%s",next_value);
+    printf("%x\t%s\t%s\t%s\n",loc,label,opcode,next_value);
+    if(strcmp(label,"-")!=0)
     {
-      fscanf(f1,"%s",next_value);
-      printf("\n%x\t%s\t%s\t%s\n",loc,label,opcode,next_value);
-      if(strcmp(label,"-")!=0)
-        fprintf(f3,"\n%x\t%s\n",loc,label);
+      fprintf(f3, "%x\t%s\n",loc,label);
+    }
 
+    fscanf(f2,"%s%s",opcode1,value1);
 
-      fscanf(f2,"%s %d",opcode1,&value1);
-
-      while(!feof(f2))
+    while(!feof(f2))
+    {
+      if(strcmp(opcode,opcode1)==0)
       {
-        if(strcmp(opcode,opcode1)==0)
-        {
-         loc=loc+3;
-         break;
-        }
-        fscanf(f2,"%s %d",opcode1,&value1);
-
-       }
-
-      if(strcmp(opcode,"WORD")==0)
-         loc=loc+3;
-
-      else if(strcmp(opcode,"RESW")==0)
-      {
-       operand=atoi(next_value);
-       loc=loc+(3*operand);
+        loc=loc+3;
+        break;
       }
+      fscanf(f1,"%s%s",opcode1,value1);
+    }
 
-      else if(strcmp(opcode,"BYTE")==0)
-      {
-       if(next_value[0]=='X')
+    if(strcmp(opcode,"WORD")==0)
+    {
+      loc=loc+3;
+    }
+
+    if(strcmp(opcode,"RESB")==0)
+    {
+      loc=loc+atoi(next_value);
+    }
+
+    if(strcmp(opcode,"RESW")==0)
+    {
+     loc=loc+(3*atoi(next_value));
+    }
+
+    if(strcmp(opcode,"BYTE")==0)
+    {
+      if(strcmp(next_value,"X")==0)
          loc=loc+1;
+      else
+        loc=loc+strlen(next_value)-2;
+    }
+    fscanf(f1,"%s%s",label,opcode);
+  }
 
-       else
-       {
-         len=strlen(next_value)-2;
-         loc=loc+len;
-       }
-      }
+  if(strcmp(opcode,"END")==0)
+  {
+    printf("Length of program: %d\n",(loc-start_addr));
+  }
 
-       else if(strcmp(opcode,"RESB")==0)
-       {
-        operand=atoi(next_value);
-        loc=loc+operand;
-       }
 
-       fscanf(f1,"%s%s",label,opcode);
-     }
-
- if(strcmp(opcode,"END")==0)
-   printf("Program length =\n%d",loc-start_addr);
-
-fclose(f1);
-fclose(f2);
-fclose(f3);
+  fclose(f1);
+  fclose(f2);
+  fclose(f3);
 }
