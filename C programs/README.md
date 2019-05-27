@@ -6,7 +6,7 @@
 5. Relocating loader using bit mask.
 6. One-pass macroprocessor.
 
-# Instructions to execute:
+# Instructions to execute: (Even in windows)
 
 1) Download all .dat and .c files in the same folder
 2) Open terminal
